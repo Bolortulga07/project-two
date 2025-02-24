@@ -53,28 +53,11 @@ const authMiddleware = (req, res, next) => {
     res.send("Auth token invalid");
   }
 };
-app.use("/", authMiddleware);
+app.use("/", authRoutes);
 app.use("/user", authMiddleware, userRoutes);
 app.use("/blogs", authMiddleware, blogRoutes);
 app.use("/comment", authMiddleware, comRoutes);
 app.use("/data", authMiddleware);
-
-app.use("/", authRoutes);
-
-app.get("/data/get-data", (req, res) => {
-  const { user } = req;
-  console.log(user);
-  const data = [{ name: "1" }];
-  res.send(data);
-});
-
-app.get("/jishee", (req, res) => {
-  const person = new Person("bat");
-
-  person.sayHi();
-
-  res.send("success");
-});
 
 app.get("/login", (req, res) => {
   const token = jwt.sign({ userId: "123" }, process.env.SECRET_KEY);
